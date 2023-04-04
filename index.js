@@ -21,13 +21,13 @@ const exerciseSchema = new mongoose.Schema({
     description: String,
     duration: Number,
     date: Number,
-    _id: Number
+    _id: mongoose.SchemaTypes.ObjectId
 });
 
 const logSchema = new mongoose.Schema({
   username: String,
   count: Number,
-  _id: Number,
+  _id: mongoose.SchemaTypes.ObjectId,
   log: {
     description: String,
     duration: Number,
