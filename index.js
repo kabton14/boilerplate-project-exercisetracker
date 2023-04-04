@@ -23,6 +23,17 @@ const exerciseSchema = new mongoose.Schema({
     _id: Number
 });
 
+const logSchema = new mongoose.Schema({
+  username: String,
+  count: Number,
+  _id: Number,
+  log: {
+    description: String,
+    duration: Number,
+    date: String
+  }
+});
+
 
 app.use(cors())
 app.use(express.static('public'))
