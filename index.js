@@ -34,6 +34,10 @@ const logSchema = new mongoose.Schema({
   }
 });
 
+const User = mongoose.model('User', userSchema);
+const Exercise = mongoose.model('Exercise', exerciseSchema);
+const Log = mongoose.model('Log', logSchema);
+
 
 app.use(cors())
 app.use(express.static('public'))
