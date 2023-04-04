@@ -62,6 +62,16 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
 });
 
+app.post('/api/users', (req, res) => {
+  const username = req.body.username;
+  const user = new User({username});
+
+  addUser(user, (err, data) => {
+    if (err) return res.status(400).json({error: err.message});
+    res.json(data);
+  });
+});
+
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port)
 })
