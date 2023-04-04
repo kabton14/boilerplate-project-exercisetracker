@@ -38,6 +38,13 @@ const User = mongoose.model('User', userSchema);
 const Exercise = mongoose.model('Exercise', exerciseSchema);
 const Log = mongoose.model('Log', logSchema);
 
+let user = new User({username: "Sonny Simms"});
+const saveUser = (user, done) => {
+  user.save((err, data) => {
+    if (err) return console.error(err);
+    done(null , data);
+  });
+};
 
 app.use(cors())
 app.use(express.static('public'))
