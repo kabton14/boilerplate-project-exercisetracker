@@ -46,6 +46,13 @@ const saveUser = (user, done) => {
   });
 };
 
+const findUserByUserName = (userName, done) => {
+  User.find({username: userName}, (err, data) => {
+    if (err) return console.error(err);
+    done(null, data);
+  })
+};
+
 app.use(cors())
 app.use(express.static('public'))
 app.get('/', (req, res) => {
