@@ -15,6 +15,14 @@ const userSchema = new mongoose.Schema({
   }
 });
 
+const exerciseSchema = new mongoose.Schema({
+    username: String,
+    description: String,
+    duration: Number,
+    date: Number,
+    _id: Number
+});
+
 
 app.use(cors())
 app.use(express.static('public'))
