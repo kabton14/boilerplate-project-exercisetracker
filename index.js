@@ -17,22 +17,57 @@ const userSchema = new mongoose.Schema({
 });
 
 const exerciseSchema = new mongoose.Schema({
-    username: String,
-    description: String,
-    duration: Number,
-    date: Number,
-    _id: mongoose.SchemaTypes.ObjectId
+  username: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  duration: {
+    type: Number,
+    required: true,
+  },
+  date: {
+    type: Date,
+    required: true,
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  }
 });
 
 const logSchema = new mongoose.Schema({
-  username: String,
-  count: Number,
-  _id: mongoose.SchemaTypes.ObjectId,
-  log: {
-    description: String,
-    duration: Number,
-    date: String
+  username: {
+    type: String,
+    required: true,
+  },
+  count: {
+    type: Number,
+    required: true,
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  log: [{
+    description: {
+      type: String,
+      required: true,
+    },
+    duration: {
+      type: Number,
+      required: true,
+    },
+    date: {
+      type: Date,
+      required: true,
   }
+  }]
 });
 
 const User = mongoose.model('User', userSchema);
