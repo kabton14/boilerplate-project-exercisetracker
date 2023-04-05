@@ -126,7 +126,7 @@ app.post('/api/users/:_id/exercises', (req, res) => {
       description,
       duration: parseInt(duration),
       date: new Date(date).getTime(),
-      _id: userId
+      user: userId,
     });
 
     exercise.save((err, data) => {
