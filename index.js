@@ -73,6 +73,43 @@ app.post('/api/users', (req, res) => {
   });
 });
 
+app.post('/api/users/:_id/exercises', (req, res) => {
+  const userId = req.params._id;
+  const description = req.body.description;
+  const duration = req.body.duration;
+  let date = req.body.date;
+
+  if (!date) {
+    date = new Date().toISOString().slice(0, 10);
+  }
+
+  User.findById(userId, (err, user) => {
+    if (err) return res.status(400).json({ error: err.message });
+
+    const exercise = new Exercise({
+      username: user.username,
+      description,
+      duration: parseInt(duration),
+      date: new Date(date).getTime(),
+      _id: userId
+    });
+
+    exercise.save((err, data) => {
+      if (err) return res.status(400).json({ error: err.message });
+
+      const responseData = {
+        username: user.username,
+        description: data.description,
+        duration: data.duration,
+        date: new Date(data.date).toDateString(),
+        _id: user._id,
+      };
+
+      res.json(responseData);
+    });
+  });
+});
+
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port)
 })
