@@ -66,7 +66,7 @@ const logSchema = new mongoose.Schema({
     date: {
       type: Date,
       required: true,
-  }
+    }
   }]
 });
 
@@ -137,13 +137,65 @@ app.post('/api/users/:_id/exercises', (req, res) => {
         description: data.description,
         duration: data.duration,
         date: new Date(data.date).toDateString(),
-        _id: user._id,
       };
 
       res.json(responseData);
     });
   });
 });
+
+app.get('/api/users/:_id/logs', (req, res) => {
+  const userId = req.params._id;
+  const from = req.query.from;
+  const to = req.query.to;
+  const limit = parseInt(req.query.limit);
+
+  User.findById(userId, (err, user) => {
+    if (err) return res.status(400).json({ error: err.message });
+
+    Exercise.find({ username: user.username }, (err, exercises) => {
+      if (err) return res.status(400).json({ error: err.message });
+
+      let filteredExercises = exercises;
+
+      if (from) {
+        const fromDate = new Date(from);
+        filteredExercises = filteredExercises.filter((exercise) => {
+          return new Date(exercise.date) >= fromDate;
+        });
+      }
+
+      if (to) {
+        const toDate = new Date(to);
+        filteredExercises = filteredExercises.filter((exercise) => {
+          return new Date(exercise.date) <= toDate;
+        });
+      }
+
+      if (limit) {
+        filteredExercises = filteredExercises.slice(0, limit);
+      }
+
+      const log = filteredExercises.map((exercise) => {
+        return {
+          description: exercise.description,
+          duration: exercise.duration,
+          date: new Date(exercise.date).toDateString(),
+        };
+      });
+
+      const responseData = {
+        _id: user._id,
+        username: user.username,
+        count: log.length,
+        log,
+      };
+
+      res.json(responseData);
+    });
+  });
+});
+
 
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port)
