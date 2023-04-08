@@ -133,7 +133,8 @@ app.post('/api/users/:_id/exercises', (req, res) => {
       if (err) return res.status(400).json({ error: err.message });
 
       const responseData = {
-        user,
+        _id: user._id,
+        username: user.username,
         description: data.description,
         duration: data.duration,
         date: new Date(data.date).toDateString(),
