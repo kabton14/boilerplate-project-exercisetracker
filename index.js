@@ -139,7 +139,7 @@ app.post('/api/users/:_id/exercises', (req, res) => {
         date: new Date(data.date).toDateString(),
       };
 
-      res.json(responseData);
+      res.send(responseData);
     });
   });
 });
